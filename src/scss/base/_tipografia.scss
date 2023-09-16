@@ -1,4 +1,5 @@
 @use 'variables' as v;
+@use 'base/mixins' as m;
 
 h1, h2, h3 {
     font-family: v.$fuente_headings;
@@ -18,4 +19,24 @@ p {
     font-size: 2rem;
     color: v.$gris;
     line-height: 1.8;
+}
+
+.tagline {
+    font-family: v.$fuente_headings;
+    font-weight: 900;
+    color: v.$negro;
+    font-size: 2rem;
+    text-align: center;
+
+    @include m.tablet {
+        font-size: 3rem;
+    }
+}
+.descripcion-pagina {
+    text-align: center;
+    font-size: 1.7rem;
+
+    @include m.tablet {
+        font-size: 2rem;
+    }
 }
