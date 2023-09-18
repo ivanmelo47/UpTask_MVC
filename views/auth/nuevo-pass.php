@@ -7,11 +7,11 @@
         <form action="/nuevo-password" method="POST" class="formulario">
             
             <div class="campo">
-                <label for="password">Password</label>
+                <label for="password">Nuevo Password</label>
                 <input 
                     type="password"
                     id="password"
-                    placeholder="Tu Password"
+                    placeholder="Tu Nuevo Password"
                     name="password"
                 />
             </div>

@@ -27,7 +27,7 @@ $router->get('/nuevo-password', [LoginController::class, 'nuevo_password']);
 $router->post('/nuevo-password', [LoginController::class, 'nuevo_password']);
 
 // Confirmacion de Cuenta
-$router->get('/mensaje-confirmacion', [LoginController::class, 'mensaje_confirmacion']);
+$router->get('/mensaje', [LoginController::class, 'mensaje']);
 $router->get('/confirmar-cuenta', [LoginController::class, 'confirmar_cuenta']);
 
 /* Fin: Rutas de Login */

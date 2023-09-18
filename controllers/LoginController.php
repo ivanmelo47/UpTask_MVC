@@ -1,6 +1,7 @@
 <?php
     
 namespace Controllers;
+use Model\Usuario;
 use MVC\Router;
 
 class LoginController {
@@ -22,17 +23,47 @@ class LoginController {
     }
     public static function crear_cuenta(Router $router){
 
+        $usuario = new Usuario;
+        $alertas = [];
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            # code...
+            $usuario->sincronizar($_POST);
+            $alertas = $usuario->validarNuevaCuenta();
+
+            if (empty($alertas)) {
+                // Verificar que e usuario no este registrado
+                $resultado = $usuario->existeUsuario();
+
+                if ($resultado->num_rows) {
+                    $alertas = Usuario::getAlertas();
+                } else {
+                    // Hashear el password
+                    $usuario->hashPassword();
+
+                    //Generar Token único
+                    $usuario->crearToken();
+
+                    // Enviar el email
+                    //$email = new Email($usuario->email, $usuario->nombre, $usuario->token);
+                    //$email->enviarConfirmacion();
+
+                    // Crear el usuario
+                    $resultado = $usuario->guardar();
+                    if ($resultado) {
+                        header('Location: /mensaje');
+                    }
+                }
+            }
         }
 
         // Render a la Vista
         $router->render('auth/crear-cuenta', [
-            'titulo' => 'Crear Cuenta'
+            'titulo' => 'Crear Cuenta',
+            'usuario' => $usuario,
+            'alertas' => $alertas
         ]);
     }
     public static function olvide_password(Router $router){
-        //echo 'Desde Olvide';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             # code...
@@ -44,7 +75,6 @@ class LoginController {
         ]);
     }
     public static function nuevo_password(Router $router){
-        //echo 'Desde Nuevos Password';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             # code...
@@ -55,13 +85,16 @@ class LoginController {
             'titulo' => 'Nuevo Password'
         ]);
     }
-    public static function mensaje_confirmacion(){
-        echo 'Desde Mensaje';
-
-        
+    public static function mensaje(Router $router){
+        // Render a la Vista
+        $router->render('auth/mensaje', [
+            'titulo' => 'Cuenta Creada Exitosamente!'
+        ]);
     }
-    public static function confirmar_cuenta(){
-        echo 'Desde Confirmar';
-
+    public static function confirmar_cuenta(Router $router){
+        // Render a la Vista
+        $router->render('auth/confirmar', [
+            'titulo' => 'Cuenta Confirmada!'
+        ]);
     }
 }

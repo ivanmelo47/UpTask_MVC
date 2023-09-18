@@ -4,20 +4,20 @@
 .nuevo-pass {
     margin-top: 5rem;
     .uptask {
-        @include m.textoDegradado(v.$naranja)
+        @include m.textoDegradado(v.$azul)
     }
 
     input[type='submit'] {
-        @include m.boton(v.$naranja, v.$blanco);
+        @include m.boton(v.$azul, v.$blanco);
     }
 
     .acciones {
         a {
-            color: v.$naranja;
+            color: v.$azul;
             transition: color 0.3s ease;
 
             &:hover {
-                color: darken( v.$naranja, 30% );
+                color: darken( v.$azul, 30% );
             }
         }
     }
